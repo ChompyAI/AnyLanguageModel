@@ -1010,8 +1010,12 @@ import Foundation
                                 chat.append(.tool(toolResultJSON))
                             }
 
-                            // Continue loop to generate with tool results
-                            continue
+                            // Pause loop to allow manual control via Chompy
+                            return LanguageModelSession.Response(
+                                content: allTextChunks.joined() as! Content,
+                                rawContent: GeneratedContent(allTextChunks.joined()),
+                                transcriptEntries: ArraySlice(allEntries)
+                            )
                         }
                     }
                 }

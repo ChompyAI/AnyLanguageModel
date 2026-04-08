@@ -934,3 +934,14 @@ private struct State: Equatable, Sendable {
         count = max(0, count - 1)
     }
 }
+
+// MARK: - Manual Transcript Injection
+
+extension LanguageModelSession {
+    /// Append an entry directly into the transcript safely behind the lock.
+    public func appendTranscriptEntry(_ entry: Transcript.Entry) {
+        withMutation(keyPath: \.transcript) {
+            state.withLock { $0.transcript.append(entry) }
+        }
+    }
+}
